@@ -1,5 +1,29 @@
 ---
+import { literal } from "astro:schema";
 
+const pageTitle = "About Me";
+
+const identity = {
+    firstName: "Sarah",
+    country: "Canada",
+    occupation: "Technical Writer",
+    hobbies: ["photography", "birdwatching", "baseball"],
+};
+
+const skills = ["HTML", "CSS", "JavaScript", "React", "Astro", "Writing Docs"];
+
+const happy = true;
+const finished = false;
+const goal = 3;
+
+const operatingSystem: string = "Linux";
+const quantity = 3;
+const footwear = "boots";
+const student = false;
+
+const skillColor = "navy";
+const fontWeight = "bold";
+const textCase = "uppercase";
 ---
 
 <html lang="en">
@@ -8,21 +32,48 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>{pageTitle}</title>
+        <style define:vars={{skillColor, fontWeight, textCase}}>
+            h1{
+                color: blue;
+                font-size: 2rem
+            }
+            h2{
+                color: purple;
+                font-size: 1.5rem;
+            }
+            .skill{
+                color: var(--skillColor);
+                font-weight: var(--fontWeight);
+                font-transform: var(--textCase);
+            }
+        </style>
 	</head>
 	<body>
         <a href="/">Home</a>
         <a href="/about/">About</a>
         <a href="/blog">Blog</a>
-        <h1>About Me</h1>
-        <h2>... and my new Astro site!</h2>
-		<h1>Astro</h1>
-        <h2>About Me</h2>
-        <p>
-            I'm a web developer who loves Astro. I'm excited to see where this project goes.
-        </p>
+        <h1>{pageTitle}</h1>
+        <ul>
+            <li>My name is {identity.firstName}</li>
+            <li>I live in {identity.country} and I work as a {identity.occupation}</li>
+            {identity.hobbies.length >=2 &&
+                <li>Two of my hobbies are : {identity.hobbies[0]} and {identity.hobbies[1]}</li>}
+        </ul>
         <p>
             I'm also a fan of Astro's performance and developer experience. I can't wait to see how it evolves.
         </p>
+        <h2>Skills</h2>
+        {skills.map((skill) => <li class="skill">{skill}</li>)}
+
+        {happy && <p>I'm happy to be learning Astro.</p>}
+        {finished || <p>I'm not finished learning yet.</p>}
+        {goal === 3 && <p>My goal is to learn 3 new things this week.</p>}
+
+        <p>{operatingSystem}</p>
+        {student && <p>I am still in school.</p>}
+        <p>I have {quantity + 8} pairs of {footwear}</p>
+        {operatingSystem === "MacOS" ? <p>I am using a Mac.</p> : <p>I am not using a Mac.</p>}
+
 	</body>
 </html>
